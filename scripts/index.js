@@ -15,7 +15,6 @@
   const popupFullPhoto = document.querySelector('.popup_full-img');
   const closeButtons = document.querySelectorAll('.popup__close');
   const submitPopup = document.querySelector('.popup__submit');
-  const elementTemplate = document.querySelector('#element-template').content.querySelector('.element');
   const elements = document.querySelector('.elements');
   const popups = document.querySelectorAll('.popup');
   const popupImage = document.querySelector('.popup__image');
@@ -54,8 +53,7 @@
     photoElement: '.element__photo',
     likeElement: '.element__like',
     deleteElement: '.element__delete',
-    element: '.element',
-    popupFullPhoto: '.popup_full-img'
+    element: '.element'
   }
 
 
@@ -115,7 +113,7 @@
     const cardElement = card.generateCard();
   
     // Добавляем в DOM
-    document.querySelector('.elements').append(cardElement);
+    elements.append(cardElement);
   });
 
   function handleFormSubmitPlace(evt) {
