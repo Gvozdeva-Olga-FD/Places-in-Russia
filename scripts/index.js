@@ -22,12 +22,121 @@
   const popupFigcaption = document.querySelector('.popup__figcaption');
 
 
-// функция открытия попапа
+  const initialCards = [
+    {
+      name: 'Кольский полуостров',
+      link: 'images/kola-peninsula.jpg'
+    },
+    {
+      name: 'Ладожское озеро',
+      link: 'images/ladozhskoe-ozero.jpg'
+    },
+    {
+      name: 'Плато-Путорана',
+      link: 'images/plato-putorana.jpg'
+    },
+    {
+      name: 'Рускеала',
+      link: 'images/ruskeala.jpg'
+    },
+    {
+      name: 'Соловецкие острова',
+      link: 'images/solovky.jpg'
+    },
+    {
+      name: 'Камчатка',
+      link: 'images/kamchatka.jpg'
+    }
+  ]; 
 
-function openPopup(popup){
-  popup.classList.add('popup_opened');
-  this.addEventListener('keydown', closePopupEsc);
+
+  class Card{
+    constructor(data){
+      this._name = data.name;
+      this._link = data.link;
+    }
+
+    _getTemplate() {
+      const cardElement = document
+        .querySelector('#element-template')
+        .content
+        .querySelector('.element')
+        .cloneNode(true);
+  
+      return cardElement;
+    }
+
+    _setElementEventListener(){
+      
+    }
+
+    generateCard() {
+      this._element = this._getTemplate();
+      this._setElementEventListener();
+      this._element.querySelector('.element__name').textContent = this._name;
+      this._element.querySelector('.element__photo').src = this._link;
+      this._element.querySelector('.element__photo').alt = this._name;
+  
+      return this._element;
+    }
+  }
+  
+  initialCards.forEach((item) => {
+    const card = new Card(item);
+    const cardElement = card.generateCard();
+  
+    // Добавляем в DOM
+    document.querySelector('.elements').append(cardElement);
+  });
+
+////////////////////////////////////////////////////////////////
+
+
+//функция лайк
+
+function addLike(){
+  this.classList.toggle('element__like_active');
 }
+
+//функция удаления карточки
+
+function deleteElement(evt){
+evt.target.closest('.element').remove();
+}
+
+//функция вставки карточки из статичного списка
+/*
+function templateCard(){
+    const cards = initialCards.map(function(item){
+    
+      return createCards(item);
+ 
+  });
+  elements.append(...cards);
+}
+*/
+//функция создания карточки и слушателей
+/*
+templateCard();
+
+function createCards(item){
+  const card = elementTemplate.cloneNode(true);
+  card.querySelector('.element__name').textContent = item.name;
+  card.querySelector('.element__photo').src = item.link;
+  card.querySelector('.element__photo').setAttribute('alt', item.name);
+  card.querySelector('.element__photo').addEventListener('click', openPopupFullImg);
+  card.querySelector('.element__like').addEventListener('click', addLike);
+  card.querySelector('.element__delete').addEventListener('click', deleteElement);
+
+  return card
+};
+*/
+
+
+///////////////////////////////////////////////////////////////
+
+
+
 
 // функция открытия попапа добавление карточки
 
@@ -38,7 +147,12 @@ function openPopupAddPlace(){
 
 // функция открытия попапа изменение данных профиля
 
-function openPopupProfileEdit(){
+function openPopup(popup){
+  popup.classList.add('popup_opened');
+  this.addEventListener('keydown', closePopupEsc);
+}
+
+function openPopupProfileEdit (){
   openPopup(popupChangeName);
   popupName.value = profileName.textContent;
   popupOccupation.value = profileOccupation.textContent;
@@ -69,73 +183,6 @@ function closePopupEsc(evt){
     closePopup(openedPopup);
   } 
 }
-
-
-const initialCards = [
-  {
-    name: 'Кольский полуостров',
-    link: 'images/kola-peninsula.jpg'
-  },
-  {
-    name: 'Ладожское озеро',
-    link: 'images/ladozhskoe-ozero.jpg'
-  },
-  {
-    name: 'Плато-Путорана',
-    link: 'images/plato-putorana.jpg'
-  },
-  {
-    name: 'Рускеала',
-    link: 'images/ruskeala.jpg'
-  },
-  {
-    name: 'Соловецкие острова',
-    link: 'images/solovky.jpg'
-  },
-  {
-    name: 'Камчатка',
-    link: 'images/kamchatka.jpg'
-  }
-]; 
-
-//функция лайк
-
-function addLike(){
-  this.classList.toggle('element__like_active');
-}
-
-//функция удаления карточки
-
-function deleteElement(evt){
-evt.target.closest('.element').remove();
-}
-
-//функция вставки карточки из статичного списка
-
-function templateCard(){
-    const cards = initialCards.map(function(item){
-    
-      return createCards(item);
- 
-  });
-  elements.append(...cards);
-}
-
-//функция создания карточки и слушателей
-
-templateCard();
-
-function createCards(item){
-  const card = elementTemplate.cloneNode(true);
-  card.querySelector('.element__name').textContent = item.name;
-  card.querySelector('.element__photo').src = item.link;
-  card.querySelector('.element__photo').setAttribute('alt', item.name);
-  card.querySelector('.element__photo').addEventListener('click', openPopupFullImg);
-  card.querySelector('.element__like').addEventListener('click', addLike);
-  card.querySelector('.element__delete').addEventListener('click', deleteElement);
-
-  return card
-};
 
 //проверка введенного url
 
