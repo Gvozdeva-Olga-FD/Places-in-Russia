@@ -50,26 +50,31 @@
     element: '.element',
   }
 
+  //добавление карточек на страницу из статичного списка
+
   initialCards.forEach((item) => {
     const card = new Card(item, '#element-template', selectors);
     const cardElement = card.generateCard();
   
-    // Добавляем в DOM
     elements.append(cardElement);
   });
+
+  //функция открытия попапа 
 
    function openPopup(popup){
     popup.classList.add('popup_opened');
     document.addEventListener('keydown', closePopupEsc);
   }
   
-  //функция удаления попапа 
+  //функция закрытия попапа 
   
   function closePopup(popup) {
     popup.classList.remove('popup_opened');
     document.removeEventListener('keydown', closePopupEsc);
   }
 
+  //функция сабмит попапа добавления карточки
+  
   function handleFormSubmitPlace(evt) {
 
     evt.preventDefault();
