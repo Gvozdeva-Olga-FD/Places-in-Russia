@@ -1,3 +1,5 @@
+  import Card from "./Card.js";
+
   const profileName = document.querySelector(".profile__name");
   const profileOccupation = document.querySelector(".profile__occupation");
   const buttonNameChange = document.querySelector(".profile__button-name-change");
@@ -7,18 +9,10 @@
   const formDetails = document.forms.persDetails;
   const popupName = formDetails.querySelector(".popup__content_type_name");
   const popupOccupation = formDetails.querySelector(".popup__content_type_occupation");
-  const forms = document.querySelectorAll('.popup__form');
-  const popupContainer = document.querySelector('.popup__container');
   const formAddPlace = document.forms.addPlace;
-  const popupNamePlace = formAddPlace.querySelector(".popup__content_type_name-place");
-  const popupLink = formAddPlace.querySelector('.popup__content_type_link');
-  const popupFullPhoto = document.querySelector('.popup_full-img');
   const closeButtons = document.querySelectorAll('.popup__close');
-  const submitPopup = document.querySelector('.popup__submit');
   const elements = document.querySelector('.elements');
   const popups = document.querySelectorAll('.popup');
-  const popupImage = document.querySelector('.popup__image');
-  const popupFigcaption = document.querySelector('.popup__figcaption');
 
 
   const initialCards = [
@@ -53,68 +47,28 @@
     photoElement: '.element__photo',
     likeElement: '.element__like',
     deleteElement: '.element__delete',
-    element: '.element'
+    element: '.element',
   }
 
-
-  class Card{
-    constructor(data, selectors){
-      this._name = data.name;
-      this._link = data.link;
-      this._selectors = selectors;
-    }
-
-    _getTemplate() {
-      const cardElement = document
-        .querySelector('#element-template')
-        .content
-        .querySelector('.element')
-        .cloneNode(true);
-  
-      return cardElement;
-    }
-
-    _addLike(){
-      this.classList.toggle('element__like_active');
-    }
-    _deleteElement(evt){
-      evt.target.closest('.element').remove();
-    }
-
-    _openPopupFullImg(evt){
-      openPopup(popupFullPhoto);
-      popupImage.src = evt.target.src;
-      popupFigcaption.textContent = evt.target.getAttribute('alt');
-      popupImage.alt = popupFigcaption.textContent;
-    }
-
-    generateCard() {
-      this._element = this._getTemplate();
-      const deleteElement = this._element.querySelector(this._selectors.deleteElement);
-      const cardLike = this._element.querySelector(this._selectors.likeElement);
-      const photoElement = this._element.querySelector(this._selectors.photoElement);
-      const nameElement = this._element.querySelector(this._selectors.nameElement);
-
-      nameElement.textContent = this._name;
-      photoElement.src = this._link;
-      photoElement.alt = this._name;
-
-      cardLike.addEventListener('click', this._addLike);
-      deleteElement.addEventListener('click', this._deleteElement);
-      photoElement.addEventListener('click', this._openPopupFullImg);
-  
-      return this._element;
-    }
-
-  }
-  
   initialCards.forEach((item) => {
-    const card = new Card(item, selectors);
+    const card = new Card(item, '#element-template', selectors);
     const cardElement = card.generateCard();
   
     // Добавляем в DOM
     elements.append(cardElement);
   });
+
+   function openPopup(popup){
+    popup.classList.add('popup_opened');
+    document.addEventListener('keydown', closePopupEsc);
+  }
+  
+  //функция удаления попапа 
+  
+  function closePopup(popup) {
+    popup.classList.remove('popup_opened');
+    document.removeEventListener('keydown', closePopupEsc);
+  }
 
   function handleFormSubmitPlace(evt) {
 
@@ -132,7 +86,7 @@
       title.link = 'images/not-photo.jpg'
     }
   
-    const card = new Card(title, selectors);
+    const card = new Card(title, '#element-template', selectors);
     const cardElement = card.generateCard();
   
     elements.prepend(cardElement);
@@ -144,20 +98,6 @@
     closePopup(submitPopup);
 
   }    
-
-// функция открытия попапа
-
-function openPopup(popup){
-  popup.classList.add('popup_opened');
-  document.addEventListener('keydown', closePopupEsc);
-}
-
-//функция удаления попапа 
-
-function closePopup(popup) {
-  popup.classList.remove('popup_opened');
-  document.removeEventListener('keydown', closePopupEsc);
-}
 
 // функция открытия попапа добавление карточки
 
@@ -236,3 +176,4 @@ enableValidation({
   errorClass: 'popup__message-error_active'
 })
 
+export { openPopup };
