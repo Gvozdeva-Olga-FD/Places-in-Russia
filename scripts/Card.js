@@ -49,7 +49,7 @@ class Card{
 
     cardLike.addEventListener('click', this._addLike);
     deleteElement.addEventListener('click', this._deleteElement);
-    photoElement.addEventListener('click', this._openPopupFullImg3d4t4yt);
+    photoElement.addEventListener('click', this._openPopupFullImg);
 
     return this._element;
   }
