@@ -23,11 +23,11 @@ setEventListeners(formElement){
         this._checkInputValidity(formElement, inputElement);
         this._toggleButtonState(inputList, buttonElement);
       });
+      if(inputElement.closest('.popup_add-place')){
+        document.forms.addPlace.reset();
+        this._hideInputError(formElement, inputElement);
+      }
     });
-    formElement.addEventListener('reset', () => { 
-      setTimeout(() => {  
-        this._toggleButtonState(inputList, buttonElement), 0 })
-    }) 
   };
 
   _checkInputValidity(formElement, inputElement){

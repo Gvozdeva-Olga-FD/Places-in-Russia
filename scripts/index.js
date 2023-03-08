@@ -69,9 +69,14 @@
     elements.append(cardElement);
   });
 
+  //создание экземпляра класса
+
+  const formValidator = new FormValidator(validateSelectors)
+
   //функция открытия попапа 
 
    function openPopup(popup){
+    formValidator._enableValidation();
     popup.classList.add('popup_opened');
     document.addEventListener('keydown', closePopupEsc);
   }
@@ -118,6 +123,7 @@
 
 function openPopupAddPlace(){
   openPopup(popupAddPlace);
+
 }
 
 // функция открытия попапа изменение данных профиля
@@ -181,8 +187,5 @@ popups.forEach((elem) => {
     }
   })
 });
-
-const formValidator = new FormValidator(validateSelectors)
-formValidator._enableValidation();
 
 export { openPopup };
