@@ -1,4 +1,5 @@
   import Card from "./Card.js";
+  import FormValidator from "./FormValidator.js";
 
   const profileName = document.querySelector(".profile__name");
   const profileOccupation = document.querySelector(".profile__occupation");
@@ -48,6 +49,15 @@
     likeElement: '.element__like',
     deleteElement: '.element__delete',
     element: '.element',
+  }
+
+  const validateSelectors = {
+    formSelectors: '.popup__form',
+    inputSelectors: '.popup__input',
+    submitButtonSelector: '.popup__submit',
+    inactiveButtonClass: 'popup__submit_inactive', 
+    errorInput: 'popup__input_error',
+    errorClass: 'popup__message-error_active'
   }
 
   //добавление карточек на страницу из статичного списка
@@ -172,13 +182,7 @@ popups.forEach((elem) => {
   })
 });
 
-enableValidation({
-  formSelector: '.popup__form',
-  inputSelector: '.popup__input',
-  submitButtonSelector: '.popup__submit',
-  inactiveButtonClass: 'popup__submit_inactive', 
-  errorInput: 'popup__input_error',
-  errorClass: 'popup__message-error_active'
-})
+const formValidator = new FormValidator(validateSelectors)
+formValidator._enableValidation();
 
 export { openPopup };
