@@ -77,32 +77,25 @@
     return cardElement
   }
 
-  //добавление карточек на страницу из статичного списка
-
   initialCards.forEach((item) => { 
     elements.append(createNewCard(item));
   });
 
-  //создание экземпляра класса
+  const formValidatorPlace = new FormValidator(validateSelectors, '.popup_add-place');
+  formValidatorPlace.enableValidation();
 
-  const formValidator = new FormValidator(validateSelectors)
-
-  //функция открытия попапа 
+  const formValidatorName = new FormValidator(validateSelectors, '.popup_name-change');
+  formValidatorName.enableValidation();
 
    function openPopup(popup){
-    formValidator._enableValidation();
     popup.classList.add('popup_opened');
     document.addEventListener('keydown', closePopupEsc);
   }
-  
-  //функция закрытия попапа 
   
   function closePopup(popup) {
     popup.classList.remove('popup_opened');
     document.removeEventListener('keydown', closePopupEsc);
   }
-
-  //функция сабмит попапа добавления карточки
   
   function handleFormSubmitPlace(evt) {
 
@@ -130,22 +123,19 @@
 
   }    
 
-// функция открытия попапа добавление карточки
-
 function openPopupAddPlace(){
+  document.forms.addPlace.reset();
+
+  formValidatorPlace.resetOpnForm();
   openPopup(popupAddPlace);
 
 }
-
-// функция открытия попапа изменение данных профиля
 
 function openPopupProfileEdit (){
   openPopup(popupChangeName);
   popupName.value = profileName.textContent;
   popupOccupation.value = profileOccupation.textContent;
 }
-
-//функция закрытия попапа по кнопке esc
 
 function closePopupEsc(evt){
   if(evt.key === 'Escape'){
@@ -154,14 +144,10 @@ function closePopupEsc(evt){
   } 
 }
 
-//проверка введенного url
-
 function isValidUrl(url) {
   const pattern = /^(https?:\/\/)?[\w.-]+\.[a-zA-Z]{2,}(\/.*)*$/;
   return pattern.test(url);
 }
-
-//функция сабмит для попапа редактирования данных профиля
 
 function handleFormSubmitDetails(evt) {
   evt.preventDefault(); 
@@ -172,24 +158,16 @@ function handleFormSubmitDetails(evt) {
   closePopup(submitPopup);
 }
 
-//слушатели на кнопки сабмит попапов с формами
-
 formAddPlace.addEventListener("submit", handleFormSubmitPlace);
 formDetails.addEventListener("submit", handleFormSubmitDetails);
 
-//Слушатели клика на кнопки открывающие формы
-
 buttonNameChange.addEventListener('click', openPopupProfileEdit);
 buttonAddPlace.addEventListener('click', openPopupAddPlace);
-
-//слушатели на закрытие попапа
 
 closeButtons.forEach((button) => {
   const popup = button.closest('.popup');
   button.addEventListener('click', () => closePopup(popup));
 });
-
-//слушатели закрытия попапа кликом на оверлей
 
 popups.forEach((elem) => {
   elem.addEventListener('click', (evt) => {

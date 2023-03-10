@@ -1,75 +1,75 @@
-
 class FormValidator{
-  constructor(config){
+  constructor(config, formName){
     this._config = config;
+    this._formName = formName;
+    this._formElement = document.querySelector(formName).querySelector('.popup__form');
+    this._buttonElement = this._formElement.querySelector(this._config.submitButtonSelector);
+    this._inputList = Array.from(this._formElement.querySelectorAll(this._config.inputSelectors));
   }
 
-  _enableValidation(){   
-    const formList = Array.from(document.querySelectorAll(this._config.formSelectors));
-    formList.forEach((formElement) => {
-      formElement.addEventListener('submit', (evt) => {
-        evt.preventDefault();
-      });
-    this.setEventListeners(formElement); 
+enableValidation(){   
+    this._formElement.addEventListener('submit', (evt) => {
+      evt.preventDefault();
     });
-  };
+  this._setEventListeners(); 
+};
 
-setEventListeners(formElement){
-    const inputList = Array.from(formElement.querySelectorAll(this._config.inputSelectors));
-    const buttonElement = formElement.querySelector(this._config.submitButtonSelector);
-    this._toggleButtonState(inputList, buttonElement);
-    inputList.forEach((inputElement) => {
-      inputElement.addEventListener('input', () => {
-        this._checkInputValidity(formElement, inputElement);
-        this._toggleButtonState(inputList, buttonElement);
-      });
-      if(inputElement.closest('.popup_add-place')){
-        document.forms.addPlace.reset();
-        this._hideInputError(formElement, inputElement);
-      }
+_setEventListeners(){
+  this._toggleButtonState();
+  this._inputList.forEach((inputElement) => {
+    inputElement.addEventListener('input', () => {
+      this._checkInputValidity(inputElement);
+      this._toggleButtonState();
     });
-  };
+  });
+};
 
-  _checkInputValidity(formElement, inputElement){
-    if (!inputElement.validity.valid) {
-        if(!inputElement){
-            inputElement.validationMessage = inputElement.setCustomValidity("Вы пропустили это поле");
-        }
-        this._showInputError(formElement, inputElement, inputElement.validationMessage);
-    } else {
-        this._hideInputError(formElement, inputElement);
-    }
-  };
-
-  _showInputError = function(formElement, inputElement, errorMessage){
-    const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-    inputElement.classList.add(this._config.errorInput);
-    errorElement.textContent = errorMessage;
-    errorElement.classList.add(this._config.errorClass);
-  };
-
+resetOpnForm(){
+  this._toggleButtonState();
   
-  _hideInputError(formElement, inputElement){
-    const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-    inputElement.classList.remove(this._config.errorInput);
-    errorElement.classList.remove(this._config.errorClass);
-    errorElement.textContent = '';
-  };
+  this._inputList.forEach((inputElement) => {
+    this._hideInputError(inputElement)
+  });
+}
 
-  _hasInvalidInput(inputList){
-    return inputList.some((inputElement) => {
-    return !inputElement.validity.valid;
-  }); 
+_checkInputValidity(inputElement){
+  if (!inputElement.validity.valid) {
+      if(!inputElement){
+          inputElement.validationMessage = inputElement.setCustomValidity("Вы пропустили это поле");
+      }
+      this._showInputError(inputElement, inputElement.validationMessage);
+  } else {
+      this._hideInputError(inputElement);
   }
+};
+_showInputError = function(inputElement, errorMessage){
+  const errorElement = this._formElement.querySelector(`.${inputElement.id}-error`);
+  inputElement.classList.add(this._config.errorInput);
+  errorElement.textContent = errorMessage;
+  errorElement.classList.add(this._config.errorClass);
+};
 
-  _toggleButtonState(inputList, buttonElement){
-    if(this._hasInvalidInput(inputList)){
-      buttonElement.setAttribute("disabled", "disabled");
-      buttonElement.classList.add(this._config.inactiveButtonClass);
-    }else{
-        buttonElement.removeAttribute("disabled");
-        buttonElement.classList.remove(this._config.inactiveButtonClass);
-    }
+_hideInputError(inputElement){
+  const errorElement = this._formElement.querySelector(`.${inputElement.id}-error`);
+  inputElement.classList.remove(this._config.errorInput);
+  errorElement.classList.remove(this._config.errorClass);
+  errorElement.textContent = '';
+};
+
+_hasInvalidInput(){
+  return this._inputList.some((inputElement) => {
+  return !inputElement.validity.valid;
+}); 
+}
+
+_toggleButtonState(){
+  if(this._hasInvalidInput()){
+    this._buttonElement.setAttribute("disabled", "disabled");
+    this._buttonElement.classList.add(this._config.inactiveButtonClass);
+  }else{
+      this._buttonElement.removeAttribute("disabled");
+      this._buttonElement.classList.remove(this._config.inactiveButtonClass);
+  }
 }
 
 }
