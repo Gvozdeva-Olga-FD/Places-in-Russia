@@ -60,13 +60,23 @@
     errorClass: 'popup__message-error_active'
   }
 
+  function handleOpenImgPopup(name, link){
+    popupImage.src = link;
+    popupFigcaption.textContent = name;
+    popupImage.alt = popupFigcaption.textContent;
+    openPopup(popupFullPhoto);
+  }
+
+  function createNewCard(item){
+    const card = new Card(item, '#element-template', selectors, handleOpenImgPopup);
+    const cardElement = card.generateCard();
+    return cardElement
+  }
+
   //добавление карточек на страницу из статичного списка
 
-  initialCards.forEach((item) => {
-    const card = new Card(item, '#element-template', selectors);
-    const cardElement = card.generateCard();
-  
-    elements.append(cardElement);
+  initialCards.forEach((item) => { 
+    elements.append(createNewCard(item));
   });
 
   //создание экземпляра класса
@@ -106,10 +116,7 @@
       title.link = 'images/not-photo.jpg'
     }
   
-    const card = new Card(title, '#element-template', selectors);
-    const cardElement = card.generateCard();
-  
-    elements.prepend(cardElement);
+    elements.prepend(createNewCard(title));
   
     evt.target.reset();
   
@@ -187,5 +194,3 @@ popups.forEach((elem) => {
     }
   })
 });
-
-export { openPopup };

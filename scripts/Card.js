@@ -5,7 +5,7 @@ import {openPopup} from "./index.js"
   const popupFigcaption = document.querySelector('.popup__figcaption');
 
 class Card{
-  constructor(data, templates, selectors){
+  constructor(data, templates, selectors, handleOpenImgPopup){
     this._name = data.name;
     this._link = data.link;
     this._selectors = selectors;
