@@ -15,6 +15,10 @@
   const elements = document.querySelector('.elements');
   const popups = document.querySelectorAll('.popup');
 
+  const popupFullPhoto = document.querySelector('.popup_full-img');
+  const popupImage = document.querySelector('.popup__image');
+  const popupFigcaption = document.querySelector('.popup__figcaption');
+
 
   const initialCards = [
     {

@@ -1,15 +1,34 @@
-import {openPopup} from "./index.js"
-
-  const popupFullPhoto = document.querySelector('.popup_full-img');
-  const popupImage = document.querySelector('.popup__image');
-  const popupFigcaption = document.querySelector('.popup__figcaption');
-
 class Card{
   constructor(data, templates, selectors, handleOpenImgPopup){
     this._name = data.name;
     this._link = data.link;
     this._selectors = selectors;
     this._templates = templates;
+    this._handleOpenImgPopup = handleOpenImgPopup;
+    this._element = this._getTemplate();
+    this._delElement = this._element.querySelector(this._selectors.deleteElement);
+    this._cardLike = this._element.querySelector(this._selectors.likeElement);
+    this._photoElement = this._element.querySelector(this._selectors.photoElement);
+    this._nameElement = this._element.querySelector(this._selectors.nameElement);
+  }
+
+  _addLike(){
+    this._cardLike.classList.toggle('element__like_active');
+  }
+  _deleteElement(){
+    this._element.remove();
+  }
+
+  _setEventsListeners(){
+    this._cardLike.addEventListener('click', () => {
+      this._addLike();
+    });
+    this._delElement.addEventListener('click', () => {
+      this._deleteElement();
+    });
+    this._photoElement.addEventListener('click', () => {
+      this._handleOpenImgPopup(this._name, this._link);
+    });
   }
 
   _getTemplate() {
@@ -22,34 +41,12 @@ class Card{
     return cardElement;
   }
 
-  _addLike(){
-    this.classList.toggle('element__like_active');
-  }
-  _deleteElement(evt){
-    evt.target.closest('.element').remove();
-  }
-
-  _openPopupFullImg(evt){
-    openPopup(popupFullPhoto);
-    popupImage.src = evt.target.src;
-    popupFigcaption.textContent = evt.target.getAttribute('alt');
-    popupImage.alt = popupFigcaption.textContent;
-  }
-
   generateCard() {
-    this._element = this._getTemplate();
-    const deleteElement = this._element.querySelector(this._selectors.deleteElement);
-    const cardLike = this._element.querySelector(this._selectors.likeElement);
-    const photoElement = this._element.querySelector(this._selectors.photoElement);
-    const nameElement = this._element.querySelector(this._selectors.nameElement);
+    this._setEventsListeners();
 
-    nameElement.textContent = this._name;
-    photoElement.src = this._link;
-    photoElement.alt = this._name;
-
-    cardLike.addEventListener('click', this._addLike);
-    deleteElement.addEventListener('click', this._deleteElement);
-    photoElement.addEventListener('click', this._openPopupFullImg);
+    this._nameElement.textContent = this._name;
+    this._photoElement.src = this._link;
+    this._photoElement.alt = this._name;
 
     return this._element;
   }
