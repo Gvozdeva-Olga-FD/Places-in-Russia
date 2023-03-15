@@ -1,5 +1,6 @@
   import Card from "./Card.js";
   import FormValidator from "./FormValidator.js";
+  import Popup from "./Popup.js";
 
   const profileName = document.querySelector(".profile__name");
   const profileOccupation = document.querySelector(".profile__occupation");
@@ -13,8 +14,6 @@
   const formAddPlace = document.forms.addPlace;
   const closeButtons = document.querySelectorAll('.popup__close');
   const elements = document.querySelector('.elements');
-  const popups = document.querySelectorAll('.popup');
-
   const popupFullPhoto = document.querySelector('.popup_full-img');
   const popupImage = document.querySelector('.popup__image');
   const popupFigcaption = document.querySelector('.popup__figcaption');
@@ -87,16 +86,6 @@
   const formValidatorName = new FormValidator(validateSelectors, '.popup_name-change');
   formValidatorName.enableValidation();
 
-   function openPopup(popup){
-    popup.classList.add('popup_opened');
-    document.addEventListener('keydown', closePopupEsc);
-  }
-  
-  function closePopup(popup) {
-    popup.classList.remove('popup_opened');
-    document.removeEventListener('keydown', closePopupEsc);
-  }
-  
   function handleFormSubmitPlace(evt) {
 
     evt.preventDefault();
@@ -117,31 +106,26 @@
   
     evt.target.reset();
   
-    const submitPopup = evt.target.closest('.popup');
-    
-    closePopup(submitPopup);
+    createPopupAddPlace.closePopup();    
 
   }    
 
+const createPopupAddPlace = new Popup(popupAddPlace);
+const createPopupProfileEdit = new Popup(popupChangeName);
+
 function openPopupAddPlace(){
   document.forms.addPlace.reset();
-
   formValidatorPlace.resetOpnForm();
-  openPopup(popupAddPlace);
+
+  createPopupAddPlace.openPopup();
 
 }
 
 function openPopupProfileEdit (){
-  openPopup(popupChangeName);
   popupName.value = profileName.textContent;
   popupOccupation.value = profileOccupation.textContent;
-}
 
-function closePopupEsc(evt){
-  if(evt.key === 'Escape'){
-    const openedPopup = document.querySelector('.popup_opened');
-    closePopup(openedPopup);
-  } 
+  createPopupProfileEdit.openPopup();
 }
 
 function isValidUrl(url) {
@@ -154,8 +138,7 @@ function handleFormSubmitDetails(evt) {
   profileName.textContent = popupName.value;
   profileOccupation.textContent = popupOccupation.value;
 
-  const submitPopup = evt.target.closest('.popup');
-  closePopup(submitPopup);
+  createPopupProfileEdit.closePopup();
 }
 
 formAddPlace.addEventListener("submit", handleFormSubmitPlace);
@@ -164,10 +147,12 @@ formDetails.addEventListener("submit", handleFormSubmitDetails);
 buttonNameChange.addEventListener('click', openPopupProfileEdit);
 buttonAddPlace.addEventListener('click', openPopupAddPlace);
 
+/*
 closeButtons.forEach((button) => {
   const popup = button.closest('.popup');
   button.addEventListener('click', () => closePopup(popup));
 });
+
 
 popups.forEach((elem) => {
   elem.addEventListener('click', (evt) => {
@@ -176,3 +161,5 @@ popups.forEach((elem) => {
     }
   })
 });
+
+*/
