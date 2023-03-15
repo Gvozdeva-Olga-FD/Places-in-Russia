@@ -12,11 +12,10 @@
   const popupName = formDetails.querySelector(".popup__content_type_name");
   const popupOccupation = formDetails.querySelector(".popup__content_type_occupation");
   const formAddPlace = document.forms.addPlace;
-  const closeButtons = document.querySelectorAll('.popup__close');
   const elements = document.querySelector('.elements');
-  const popupFullPhoto = document.querySelector('.popup_full-img');
-  const popupImage = document.querySelector('.popup__image');
-  const popupFigcaption = document.querySelector('.popup__figcaption');
+  //const popupFullPhoto = document.querySelector('.popup_full-img');
+  //const popupImage = document.querySelector('.popup__image');
+  //const popupFigcaption = document.querySelector('.popup__figcaption');
 
 
   const initialCards = [
@@ -63,15 +62,16 @@
     errorClass: 'popup__message-error_active'
   }
 
-  function handleOpenImgPopup(name, link){
+  function handleCardClick(name, link){
     popupImage.src = link;
     popupFigcaption.textContent = name;
     popupImage.alt = popupFigcaption.textContent;
-    openPopup(popupFullPhoto);
+    createPopupFullImg.openPopup();
+    //вписать сюда PopupWithImage, остальное удалить
   }
 
   function createNewCard(item){
-    const card = new Card(item, '#element-template', selectors, handleOpenImgPopup);
+    const card = new Card(item, '#element-template', selectors, handleCardClick);
     const cardElement = card.generateCard();
     return cardElement
   }
@@ -112,6 +112,7 @@
 
 const createPopupAddPlace = new Popup(popupAddPlace);
 const createPopupProfileEdit = new Popup(popupChangeName);
+const createPopupFullImg = new Popup(popupFullPhoto);
 
 function openPopupAddPlace(){
   document.forms.addPlace.reset();

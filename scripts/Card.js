@@ -1,10 +1,10 @@
 class Card{
-  constructor(data, templates, selectors, handleOpenImgPopup){
+  constructor(data, templates, selectors, handleCardClick){
     this._name = data.name;
     this._link = data.link;
     this._selectors = selectors;
     this._templates = templates;
-    this._handleOpenImgPopup = handleOpenImgPopup;
+    this._handleCardClick = handleCardClick;
     this._element = this._getTemplate();
     this._delElement = this._element.querySelector(this._selectors.deleteElement);
     this._cardLike = this._element.querySelector(this._selectors.likeElement);
@@ -27,7 +27,7 @@ class Card{
       this._deleteElement();
     });
     this._photoElement.addEventListener('click', () => {
-      this._handleOpenImgPopup(this._name, this._link);
+      this._handleCardClick(this._name, this._link);
     });
   }
 
