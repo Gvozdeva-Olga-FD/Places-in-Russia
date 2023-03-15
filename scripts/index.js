@@ -1,6 +1,8 @@
   import Card from "./Card.js";
   import FormValidator from "./FormValidator.js";
   import Popup from "./Popup.js";
+  //import UserInfo from "./UserInfo.js";
+  //import PopupWithImage from "./PopupWithImage.js"
 
   const profileName = document.querySelector(".profile__name");
   const profileOccupation = document.querySelector(".profile__occupation");
@@ -13,10 +15,34 @@
   const popupOccupation = formDetails.querySelector(".popup__content_type_occupation");
   const formAddPlace = document.forms.addPlace;
   const elements = document.querySelector('.elements');
-  //const popupFullPhoto = document.querySelector('.popup_full-img');
-  //const popupImage = document.querySelector('.popup__image');
-  //const popupFigcaption = document.querySelector('.popup__figcaption');
+  const popupFullPhoto = document.querySelector('.popup_full-img');
+  const popupImage = document.querySelector('.popup__image');
+  const popupFigcaption = document.querySelector('.popup__figcaption');
 
+/*
+  const personalDetails = {
+    profileName: '.profile__name',
+    profileOccupation: '.profile__occupation'
+  }
+
+  class Testing{
+    constructor({data}){
+      this._profileName = document.querySelector(data.profileName);
+      this._profileOccupation = document.querySelector(data.profileOccupation);
+    }
+
+    testfunc(){
+      const returnDetails = {
+        name: this._profileName.textContent,
+        occupation: this._profileOccupation.textContent
+      }
+      return returnDetails
+    }
+  }
+
+  const testingClass = new Testing({data: personalDetails});
+
+*/
 
   const initialCards = [
     {
@@ -67,7 +93,7 @@
     popupFigcaption.textContent = name;
     popupImage.alt = popupFigcaption.textContent;
     createPopupFullImg.openPopup();
-    //вписать сюда PopupWithImage, остальное удалить
+    //вписать сюда PopupWithImage, остальное удалить или куда
   }
 
   function createNewCard(item){
@@ -148,19 +174,3 @@ formDetails.addEventListener("submit", handleFormSubmitDetails);
 buttonNameChange.addEventListener('click', openPopupProfileEdit);
 buttonAddPlace.addEventListener('click', openPopupAddPlace);
 
-/*
-closeButtons.forEach((button) => {
-  const popup = button.closest('.popup');
-  button.addEventListener('click', () => closePopup(popup));
-});
-
-
-popups.forEach((elem) => {
-  elem.addEventListener('click', (evt) => {
-    if(elem === evt.target){
-      closePopup(elem);
-    }
-  })
-});
-
-*/
