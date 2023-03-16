@@ -15,7 +15,6 @@
   const formDetails = document.forms.persDetails;
   const popupName = formDetails.querySelector(".popup__content_type_name");
   const popupOccupation = formDetails.querySelector(".popup__content_type_occupation");
-  const formAddPlace = document.forms.addPlace;
   const elements = document.querySelector('.elements');
   const popupFullPhoto = document.querySelector('.popup_full-img');
   const popupImage = document.querySelector('.popup__image');
@@ -146,12 +145,11 @@ createCardStaticList.renderItems();
   }    
 
 const createPopupAddPlace = new PopupWithForm(popupAddPlace, handleFormSubmitPlace, formValidatorPlace);
-const createPopupProfileEdit = new Popup(popupChangeName);
+const createPopupProfileEdit = new PopupWithForm(popupChangeName, handleFormSubmitDetails, formValidatorName);
 const createPopupFullImg = new Popup(popupFullPhoto);
 
 function openPopupAddPlace(){
   createPopupAddPlace.openPopup();
-
 }
 
 function openPopupProfileEdit (){
@@ -174,8 +172,7 @@ function handleFormSubmitDetails(evt) {
   createPopupProfileEdit.closePopup();
 }
 
-formAddPlace.addEventListener("submit", handleFormSubmitPlace);
-formDetails.addEventListener("submit", handleFormSubmitDetails);
+//formDetails.addEventListener("submit", handleFormSubmitDetails);
 
 buttonNameChange.addEventListener('click', openPopupProfileEdit);
 buttonAddPlace.addEventListener('click', openPopupAddPlace);
