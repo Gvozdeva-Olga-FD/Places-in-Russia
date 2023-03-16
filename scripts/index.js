@@ -2,6 +2,7 @@
   import FormValidator from "./FormValidator.js";
   import Popup from "./Popup.js";
   import Section from "./Section.js";
+  import PopupWithForm from "./PopupWithForm.js"
   //import UserInfo from "./UserInfo.js";
   //import PopupWithImage from "./PopupWithImage.js"
 
@@ -137,21 +138,18 @@ createCardStaticList.renderItems();
     }
   
     elements.prepend(createNewCard(title));
-  
+
     evt.target.reset();
   
     createPopupAddPlace.closePopup();    
 
   }    
 
-const createPopupAddPlace = new Popup(popupAddPlace);
+const createPopupAddPlace = new PopupWithForm(popupAddPlace, handleFormSubmitPlace, formValidatorPlace);
 const createPopupProfileEdit = new Popup(popupChangeName);
 const createPopupFullImg = new Popup(popupFullPhoto);
 
 function openPopupAddPlace(){
-  document.forms.addPlace.reset();
-  formValidatorPlace.resetOpnForm();
-
   createPopupAddPlace.openPopup();
 
 }
