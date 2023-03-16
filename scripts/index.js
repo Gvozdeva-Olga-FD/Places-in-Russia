@@ -1,6 +1,7 @@
   import Card from "./Card.js";
   import FormValidator from "./FormValidator.js";
   import Popup from "./Popup.js";
+  import Section from "./Section.js";
   //import UserInfo from "./UserInfo.js";
   //import PopupWithImage from "./PopupWithImage.js"
 
@@ -102,9 +103,16 @@
     return cardElement
   }
 
-  initialCards.forEach((item) => { 
-    elements.append(createNewCard(item));
-  });
+const createCardStaticList = new Section({
+  items: initialCards,
+  renderer: (elem) => {
+    createNewCard(elem);
+    createCardStaticList.addItem(createNewCard(elem));
+  }
+}, elements);
+
+createCardStaticList.renderItems();
+
 
   const formValidatorPlace = new FormValidator(validateSelectors, '.popup_add-place');
   formValidatorPlace.enableValidation();
