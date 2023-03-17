@@ -6,10 +6,15 @@ class PopupWithForm extends Popup{
         this._handleFormSubmit = handleFormSubmit;
         this._validationRules = validationRules;
         this._form = popupSelector.querySelector('.popup__form');
+        this._inputList = Array.from(this._form.querySelectorAll('.popup__input'));
       }
 
       _getInputValues(){
-
+        const valueOfInput = []
+        this._inputList.forEach((elem) => {
+            valueOfInput.push(elem.value);
+        })
+        
       }
 
       setEventListeners(){
@@ -20,6 +25,7 @@ class PopupWithForm extends Popup{
 
       closePopup() {
         super.closePopup();
+        this._getInputValues();
         this._form.reset();
         this._validationRules.resetOpnForm();
 
