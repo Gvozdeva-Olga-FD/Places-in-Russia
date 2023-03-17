@@ -1,5 +1,5 @@
 class Card{
-  constructor(data, templates, selectors, handleCardClick){
+  constructor(data, templates, selectors, {handleCardClick}){
     this._name = data.name;
     this._link = data.link;
     this._selectors = selectors;

@@ -4,7 +4,7 @@
   import Section from "./Section.js";
   import PopupWithForm from "./PopupWithForm.js"
   //import UserInfo from "./UserInfo.js";
-  //import PopupWithImage from "./PopupWithImage.js"
+  import PopupWithImage from "./PopupWithImage.js"
 
   const profileName = document.querySelector(".profile__name");
   const profileOccupation = document.querySelector(".profile__occupation");
@@ -17,8 +17,7 @@
   const popupOccupation = formDetails.querySelector(".popup__content_type_occupation");
   const elements = document.querySelector('.elements');
   const popupFullPhoto = document.querySelector('.popup_full-img');
-  const popupImage = document.querySelector('.popup__image');
-  const popupFigcaption = document.querySelector('.popup__figcaption');
+
 
 /*
   const personalDetails = {
@@ -89,16 +88,24 @@
     errorClass: 'popup__message-error_active'
   }
 
-  function handleCardClick(name, link){
-    popupImage.src = link;
-    popupFigcaption.textContent = name;
-    popupImage.alt = popupFigcaption.textContent;
-    createPopupFullImg.openPopup();
-    //вписать сюда PopupWithImage, остальное удалить или куда
-  }
+  const formValidatorPlace = new FormValidator(validateSelectors, '.popup_add-place');
+  formValidatorPlace.enableValidation();
+
+  const formValidatorName = new FormValidator(validateSelectors, '.popup_name-change');
+  formValidatorName.enableValidation();
+
+  const createPopupAddPlace = new PopupWithForm(popupAddPlace, handleFormSubmitPlace, formValidatorPlace);
+  const createPopupProfileEdit = new PopupWithForm(popupChangeName, handleFormSubmitDetails, formValidatorName);
+  const createPopupFullImg = new PopupWithImage(popupFullPhoto);
 
   function createNewCard(item){
-    const card = new Card(item, '#element-template', selectors, handleCardClick);
+    const card = new Card(
+      item, 
+      '#element-template', 
+      selectors, 
+      {handleCardClick: (name, link) => {
+        createPopupFullImg.openPopup(name, link);
+      }});
     const cardElement = card.generateCard();
     return cardElement
   }
@@ -114,40 +121,6 @@ const createCardStaticList = new Section({
 createCardStaticList.renderItems();
 
 
-  const formValidatorPlace = new FormValidator(validateSelectors, '.popup_add-place');
-  formValidatorPlace.enableValidation();
-
-  const formValidatorName = new FormValidator(validateSelectors, '.popup_name-change');
-  formValidatorName.enableValidation();
-
-  function handleFormSubmitPlace(evt) {
-
-    evt.preventDefault();
-  
-    const placeName = this.popupPlaceName.value;
-    const placeLink = this.popupPlaceLink.value;
-  
-    const title = {
-      name: placeName,
-      link: placeLink
-    }
-  
-    if(!(isValidUrl(title.link))){
-      title.link = 'images/not-photo.jpg'
-    }
-  
-    elements.prepend(createNewCard(title));
-
-    evt.target.reset();
-  
-    createPopupAddPlace.closePopup();    
-
-  }    
-
-const createPopupAddPlace = new PopupWithForm(popupAddPlace, handleFormSubmitPlace, formValidatorPlace);
-const createPopupProfileEdit = new PopupWithForm(popupChangeName, handleFormSubmitDetails, formValidatorName);
-const createPopupFullImg = new Popup(popupFullPhoto);
-
 function openPopupAddPlace(){
   createPopupAddPlace.openPopup();
 }
@@ -159,11 +132,6 @@ function openPopupProfileEdit (){
   createPopupProfileEdit.openPopup();
 }
 
-function isValidUrl(url) {
-  const pattern = /^(https?:\/\/)?[\w.-]+\.[a-zA-Z]{2,}(\/.*)*$/;
-  return pattern.test(url);
-}
-
 function handleFormSubmitDetails(evt) {
   evt.preventDefault(); 
   profileName.textContent = popupName.value;
@@ -172,7 +140,34 @@ function handleFormSubmitDetails(evt) {
   createPopupProfileEdit.closePopup();
 }
 
-//formDetails.addEventListener("submit", handleFormSubmitDetails);
+function handleFormSubmitPlace(evt) {
+
+  evt.preventDefault();
+
+  const placeName = this.popupPlaceName.value;
+  const placeLink = this.popupPlaceLink.value;
+
+  const title = {
+    name: placeName,
+    link: placeLink
+  }
+
+  if(!(isValidUrl(title.link))){
+    title.link = 'images/not-photo.jpg'
+  }
+
+  elements.prepend(createNewCard(title));
+
+  evt.target.reset();
+
+  createPopupAddPlace.closePopup();    
+
+}   
+
+function isValidUrl(url) {
+  const pattern = /^(https?:\/\/)?[\w.-]+\.[a-zA-Z]{2,}(\/.*)*$/;
+  return pattern.test(url);
+}
 
 buttonNameChange.addEventListener('click', openPopupProfileEdit);
 buttonAddPlace.addEventListener('click', openPopupAddPlace);
