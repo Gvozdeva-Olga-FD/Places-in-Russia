@@ -3,11 +3,11 @@
   import Popup from "./Popup.js";
   import Section from "./Section.js";
   import PopupWithForm from "./PopupWithForm.js"
-  //import UserInfo from "./UserInfo.js";
+  import UserInfo from "./UserInfo.js";
   import PopupWithImage from "./PopupWithImage.js"
 
-  const profileName = document.querySelector(".profile__name");
-  const profileOccupation = document.querySelector(".profile__occupation");
+  //const profileName = document.querySelector(".profile__name");
+  //const profileOccupation = document.querySelector(".profile__occupation");
   const buttonNameChange = document.querySelector(".profile__button-name-change");
   const buttonAddPlace = document.querySelector(".profile__button-add-place");
   const popupChangeName = document.querySelector('.popup_name-change');
@@ -20,10 +20,6 @@
 
 
 /*
-  const personalDetails = {
-    profileName: '.profile__name',
-    profileOccupation: '.profile__occupation'
-  }
 
   class Testing{
     constructor({data}){
@@ -125,17 +121,26 @@ function openPopupAddPlace(){
   createPopupAddPlace.openPopup();
 }
 
+const personalDetails = {
+  profileName: '.profile__name',
+  profileOccupation: '.profile__occupation'
+}
+
+const test = new UserInfo(personalDetails);
+const { profileName, profileOccupation } = test.getUserInfo();
+
 function openPopupProfileEdit (){
-  popupName.value = profileName.textContent;
-  popupOccupation.value = profileOccupation.textContent;
+
+  popupName.value = profileName;
+  popupOccupation.value = profileOccupation;
 
   createPopupProfileEdit.openPopup();
 }
 
 function handleFormSubmitDetails(evt) {
   evt.preventDefault(); 
-  profileName.textContent = popupName.value;
-  profileOccupation.textContent = popupOccupation.value;
+
+  test.setUserInfo(popupName.value, popupOccupation.value);
 
   createPopupProfileEdit.closePopup();
 }
