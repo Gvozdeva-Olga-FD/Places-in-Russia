@@ -6,8 +6,6 @@
   import UserInfo from "./UserInfo.js";
   import PopupWithImage from "./PopupWithImage.js"
 
-  //const profileName = document.querySelector(".profile__name");
-  //const profileOccupation = document.querySelector(".profile__occupation");
   const buttonNameChange = document.querySelector(".profile__button-name-change");
   const buttonAddPlace = document.querySelector(".profile__button-add-place");
   const popupChangeName = document.querySelector('.popup_name-change');
@@ -17,28 +15,6 @@
   const popupOccupation = formDetails.querySelector(".popup__content_type_occupation");
   const elements = document.querySelector('.elements');
   const popupFullPhoto = document.querySelector('.popup_full-img');
-
-
-/*
-
-  class Testing{
-    constructor({data}){
-      this._profileName = document.querySelector(data.profileName);
-      this._profileOccupation = document.querySelector(data.profileOccupation);
-    }
-
-    testfunc(){
-      const returnDetails = {
-        name: this._profileName.textContent,
-        occupation: this._profileOccupation.textContent
-      }
-      return returnDetails
-    }
-  }
-
-  const testingClass = new Testing({data: personalDetails});
-
-*/
 
   const initialCards = [
     {
@@ -94,6 +70,11 @@
   const createPopupProfileEdit = new PopupWithForm(popupChangeName, handleFormSubmitDetails, formValidatorName);
   const createPopupFullImg = new PopupWithImage(popupFullPhoto);
 
+  const personalDetails = {
+    profileName: '.profile__name',
+    profileOccupation: '.profile__occupation'
+  }
+
   function createNewCard(item){
     const card = new Card(
       item, 
@@ -121,17 +102,12 @@ function openPopupAddPlace(){
   createPopupAddPlace.openPopup();
 }
 
-const personalDetails = {
-  profileName: '.profile__name',
-  profileOccupation: '.profile__occupation'
-}
-
-const test = new UserInfo(personalDetails);
+const userDetails = new UserInfo(personalDetails);
 
 function openPopupProfileEdit (){
 
-  popupName.value = test.getUserInfo().profileName;
-  popupOccupation.value = test.getUserInfo().profileOccupation;
+  popupName.value = userDetails.getUserInfo().profileName;
+  popupOccupation.value = userDetails.getUserInfo().profileOccupation;
 
   createPopupProfileEdit.openPopup();
 }
@@ -139,7 +115,7 @@ function openPopupProfileEdit (){
 function handleFormSubmitDetails(evt) {
   evt.preventDefault(); 
 
-  test.setUserInfo(popupName.value, popupOccupation.value);
+  userDetails.setUserInfo(popupName.value, popupOccupation.value);
 
   createPopupProfileEdit.closePopup();
 }
