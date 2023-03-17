@@ -127,12 +127,11 @@ const personalDetails = {
 }
 
 const test = new UserInfo(personalDetails);
-const { profileName, profileOccupation } = test.getUserInfo();
 
 function openPopupProfileEdit (){
 
-  popupName.value = profileName;
-  popupOccupation.value = profileOccupation;
+  popupName.value = test.getUserInfo().profileName;
+  popupOccupation.value = test.getUserInfo().profileOccupation;
 
   createPopupProfileEdit.openPopup();
 }
