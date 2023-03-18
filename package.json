@@ -1,0 +1,26 @@
+{
+  "name": "places-in-russia",
+  "version": "1.0.0",
+  "description": "В проекте реализовано три всплывающих окна: изменение данных владельца страницы, добавление новой карточки, просмотр полной версии картинки места. Карточки можно удалять. Так же есть функция добавление реакции на карточку",
+  "main": "index.js",
+  "scripts": {
+    "build": "rm -rf dist && webpack",
+    "dev": "webpack serve"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Gvozdeva-Olga-FD/Places-in-Russia.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Gvozdeva-Olga-FD/Places-in-Russia/issues"
+  },
+  "homepage": "https://github.com/Gvozdeva-Olga-FD/Places-in-Russia#readme",
+  "devDependencies": {
+    "webpack": "^5.76.2",
+    "webpack-cli": "^5.0.1",
+    "webpack-dev-server": "^4.13.1"
+  }
+}
