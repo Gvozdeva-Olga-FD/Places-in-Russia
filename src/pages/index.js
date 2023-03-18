@@ -22,7 +22,8 @@ import './index.css';
   const platoPutorana = new URL('../images/plato-putorana.jpg', import.meta.url);
   const ruskeala = new URL('../images/ruskeala.jpg', import.meta.url);
   const solovky = new URL('../images/solovky.jpg', import.meta.url);
-  const kamchatka = new URL('../images/kamchatka.jpg', import.meta.url)
+  const kamchatka = new URL('../images/kamchatka.jpg', import.meta.url);
+  const withoutPhoto = new URL('../images/not-photo.jpg', import.meta.url);
 
   const initialCards = [
     {
@@ -141,7 +142,7 @@ function handleFormSubmitPlace(evt) {
   }
 
   if(!(isValidUrl(title.link))){
-    title.link = 'images/not-photo.jpg'
+    title.link = withoutPhoto;
   }
 
   elements.prepend(createNewCard(title));
