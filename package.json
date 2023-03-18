@@ -4,7 +4,7 @@
   "description": "В проекте реализовано три всплывающих окна: изменение данных владельца страницы, добавление новой карточки, просмотр полной версии картинки места. Карточки можно удалять. Так же есть функция добавление реакции на карточку",
   "main": "index.js",
   "scripts": {
-    "build": "rm -rf dist && webpack",
+    "build": "webpack --mode production",
     "dev": "webpack serve"
   },
   "repository": {
@@ -19,8 +19,21 @@
   },
   "homepage": "https://github.com/Gvozdeva-Olga-FD/Places-in-Russia#readme",
   "devDependencies": {
+    "@babel/core": "^7.21.3",
+    "@babel/preset-env": "^7.20.2",
+    "autoprefixer": "^10.4.14",
+    "babel-loader": "^9.1.2",
+    "clean-webpack-plugin": "^4.0.0",
+    "css-loader": "^6.7.3",
+    "cssnano": "^5.1.15",
+    "mini-css-extract-plugin": "^2.7.5",
+    "postcss-loader": "^7.1.0",
     "webpack": "^5.76.2",
     "webpack-cli": "^5.0.1",
     "webpack-dev-server": "^4.13.1"
+  },
+  "dependencies": {
+    "core-js": "^3.29.1",
+    "html-webpack-plugin": "^5.5.0"
   }
 }
