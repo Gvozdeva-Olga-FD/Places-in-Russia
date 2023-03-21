@@ -2,15 +2,12 @@ class FormValidator{
   constructor(config, formName){
     this._config = config;
     this._formName = formName;
-    this._formElement = document.querySelector(formName).querySelector('.popup__form');
+    this._formElement = formName.querySelector('.popup__form');
     this._buttonElement = this._formElement.querySelector(this._config.submitButtonSelector);
     this._inputList = Array.from(this._formElement.querySelectorAll(this._config.inputSelectors));
   }
 
 enableValidation(){   
-    this._formElement.addEventListener('submit', (evt) => {
-      evt.preventDefault();
-    });
   this._setEventListeners(); 
 };
 
@@ -32,16 +29,20 @@ resetOpnForm(){
   });
 }
 
+
+isValidUrl(url) {
+    const pattern = /^(https?:\/\/)?[\w.-]+\.[a-zA-Z]{2,}(\/.*)*$/;
+    return pattern.test(url);
+}
+
 _checkInputValidity(inputElement){
   if (!inputElement.validity.valid) {
-      if(!inputElement){
-          inputElement.validationMessage = inputElement.setCustomValidity("Вы пропустили это поле");
-      }
       this._showInputError(inputElement, inputElement.validationMessage);
   } else {
       this._hideInputError(inputElement);
-  }
+    } 
 };
+
 _showInputError = function(inputElement, errorMessage){
   const errorElement = this._formElement.querySelector(`.${inputElement.id}-error`);
   inputElement.classList.add(this._config.errorInput);

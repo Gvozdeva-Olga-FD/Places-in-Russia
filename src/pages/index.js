@@ -1,100 +1,81 @@
 import './index.css';
 
-  import Card from "../components/Card.js"
-  import FormValidator from "../components/FormValidator.js";
-  import Section from "../components/Section.js";
-  import PopupWithForm from "../components/PopupWithForm.js"
-  import UserInfo from "../components/UserInfo.js";
-  import PopupWithImage from "../components/PopupWithImage.js"
+import Card from "../components/Card.js"
+import FormValidator from "../components/FormValidator.js";
+import Section from "../components/Section.js";
+import PopupWithForm from "../components/PopupWithForm.js"
+import UserInfo from "../components/UserInfo.js";
+import PopupWithImage from "../components/PopupWithImage.js"
+import {
+  buttonNameChange,
+  buttonAddPlace,
+  popupName,
+  popupOccupation,
+  elements,
+  popupFullPhoto,
+  popupChangeName,
+  popupAddPlace,
+  withoutImg,
+  initialCards,
+  createNewCardObject,
+  formValidatorPlaceObject,
+  personalDetails
+} from '../utils/constants.js'
 
-  const buttonNameChange = document.querySelector(".profile__button-name-change");
-  const buttonAddPlace = document.querySelector(".profile__button-add-place");
-  const popupChangeName = document.querySelector('.popup_name-change');
-  const popupAddPlace = document.querySelector('.popup_add-place');
-  const formDetails = document.forms.persDetails;
-  const popupName = formDetails.querySelector(".popup__content_type_name");
-  const popupOccupation = formDetails.querySelector(".popup__content_type_occupation");
-  const elements = document.querySelector('.elements');
-  const popupFullPhoto = document.querySelector('.popup_full-img');
 
-  const kolaPeninsula = new URL('../images/kola-peninsula.jpg', import.meta.url);
-  const ladoga = new URL('../images/ladozhskoe-ozero.jpg', import.meta.url);
-  const platoPutorana = new URL('../images/plato-putorana.jpg', import.meta.url);
-  const ruskeala = new URL('../images/ruskeala.jpg', import.meta.url);
-  const solovky = new URL('../images/solovky.jpg', import.meta.url);
-  const kamchatka = new URL('../images/kamchatka.jpg', import.meta.url);
-  const withoutPhoto = new URL('../images/not-photo.jpg', import.meta.url);
+export const formValidatorPlace = new FormValidator(formValidatorPlaceObject, popupAddPlace);
+export const formValidatorName = new FormValidator(formValidatorPlaceObject, popupChangeName);
 
-  const initialCards = [
-    {
-      name: 'Кольский полуостров',
-      link: kolaPeninsula
-    },
-    {
-      name: 'Ладожское озеро',
-      link: ladoga
-    },
-    {
-      name: 'Плато-Путорана',
-      link: platoPutorana
-    },
-    {
-      name: 'Рускеала',
-      link: ruskeala
-    },
-    {
-      name: 'Соловецкие острова',
-      link: solovky
-    },
-    {
-      name: 'Камчатка',
-      link: kamchatka
-    }
-  ]; 
+formValidatorPlace.enableValidation();
+formValidatorName.enableValidation();
 
-  const selectors = {
-    nameElement: '.element__name',
-    photoElement: '.element__photo',
-    likeElement: '.element__like',
-    deleteElement: '.element__delete',
-    element: '.element',
+
+const createPopupAddPlace = new PopupWithForm(popupAddPlace, 
+
+  {handleFormSubmit: (formData) => {
+
+    const title = { 
+        name: formData['popupPlaceName'], 
+        link: formData['popupPlaceLink'] 
+      } 
+      
+      if(!(formValidatorPlace.isValidUrl(title.link))){ 
+        title.link = withoutImg; 
+      } 
+
+      document.querySelector(elements).prepend(createNewCard(title)); 
+  
+      createPopupAddPlace.closePopup();   
+    }});
+
+createPopupAddPlace.setEventListeners();
+
+const userDetails = new UserInfo(personalDetails);
+
+const createPopupProfileEdit = new PopupWithForm(popupChangeName, 
+  {handleFormSubmit: (formData) => {
+    userDetails.setUserInfo(formData['popup__content_type_name'], formData['popup__content_type_occupation']);
+    createPopupProfileEdit.closePopup();
   }
+});
 
-  const validateSelectors = {
-    formSelectors: '.popup__form',
-    inputSelectors: '.popup__input',
-    submitButtonSelector: '.popup__submit',
-    inactiveButtonClass: 'popup__submit_inactive', 
-    errorInput: 'popup__input_error',
-    errorClass: 'popup__message-error_active'
-  }
+createPopupProfileEdit.setEventListeners();
 
-  const formValidatorPlace = new FormValidator(validateSelectors, '.popup_add-place');
-  formValidatorPlace.enableValidation();
+const createPopupFullImg = new PopupWithImage(popupFullPhoto);
+createPopupFullImg.setEventListeners();
 
-  const formValidatorName = new FormValidator(validateSelectors, '.popup_name-change');
-  formValidatorName.enableValidation();
-
-  const createPopupAddPlace = new PopupWithForm(popupAddPlace, handleFormSubmitPlace, formValidatorPlace);
-  const createPopupProfileEdit = new PopupWithForm(popupChangeName, handleFormSubmitDetails, formValidatorName);
-  const createPopupFullImg = new PopupWithImage(popupFullPhoto);
-
-  const personalDetails = {
-    profileName: '.profile__name',
-    profileOccupation: '.profile__occupation'
-  }
-
-  function createNewCard(item){
-    const card = new Card(
-      item, 
-      '#element-template', 
-      selectors, 
-      {handleCardClick: (name, link) => {
-        createPopupFullImg.openPopup(name, link);
-      }});
-    const cardElement = card.generateCard();
-    return cardElement
-  }
+  
+function createNewCard(item){
+  const card = new Card(
+    item, 
+    '#element-template', 
+    createNewCardObject, 
+    {handleCardClick: (name, link) => {
+      createPopupFullImg.openPopup(name, link);
+    }});
+  const cardElement = card.generateCard();
+  return cardElement
+}
 
 const createCardStaticList = new Section({
   items: initialCards,
@@ -109,53 +90,17 @@ createCardStaticList.renderItems();
 
 function openPopupAddPlace(){
   createPopupAddPlace.openPopup();
+  formValidatorPlace.resetOpnForm();
 }
 
-const userDetails = new UserInfo(personalDetails);
 
 function openPopupProfileEdit (){
 
-  popupName.value = userDetails.getUserInfo().profileName;
-  popupOccupation.value = userDetails.getUserInfo().profileOccupation;
+  popupName.value = userDetails.getUserInfo().name;
+  popupOccupation.value = userDetails.getUserInfo().occupation;
 
   createPopupProfileEdit.openPopup();
-}
-
-function handleFormSubmitDetails(evt) {
-  evt.preventDefault(); 
-
-  userDetails.setUserInfo(popupName.value, popupOccupation.value);
-
-  createPopupProfileEdit.closePopup();
-}
-
-function handleFormSubmitPlace(evt) {
-
-  evt.preventDefault();
-
-  const placeName = this.popupPlaceName.value;
-  const placeLink = this.popupPlaceLink.value;
-
-  const title = {
-    name: placeName,
-    link: placeLink
-  }
-
-  if(!(isValidUrl(title.link))){
-    title.link = withoutPhoto;
-  }
-
-  elements.prepend(createNewCard(title));
-
-  evt.target.reset();
-
-  createPopupAddPlace.closePopup();    
-
-}   
-
-function isValidUrl(url) {
-  const pattern = /^(https?:\/\/)?[\w.-]+\.[a-zA-Z]{2,}(\/.*)*$/;
-  return pattern.test(url);
+  formValidatorName.resetOpnForm();
 }
 
 buttonNameChange.addEventListener('click', openPopupProfileEdit);
